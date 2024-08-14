@@ -8,9 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    var dataService = DataService()
+    
     var body: some View {
         VStack {
             Text("This is a random photo generator")
+        }.onAppear {
+            Task {
+                await dataService.getRandomPhoto()
+            }
+            
         }
         
     }
