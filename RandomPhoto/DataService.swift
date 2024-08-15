@@ -11,7 +11,7 @@ struct DataService {
     
     var apiKey = Bundle.main.infoDictionary?["API_KEY"] as? String
     
-    func getRandomPhoto() async {
+    func getRandomPhoto() async -> String {
         //check api key
         
         if apiKey != nil{
@@ -26,19 +26,21 @@ struct DataService {
                 //url session
                 do {
                     let (data, response) = try await URLSession.shared.data(for: request)
-                    print("This is the data: \(data)")
+//                    print("This is the data: \(data)")
                     
                     //status code
                     if let httpResponse = response as? HTTPURLResponse{
                         
                         if httpResponse.statusCode == 200 {
-                            print(httpResponse.statusCode)
+//                            print(httpResponse.statusCode)
                             
                             //parse
                             let decoder = JSONDecoder()
                             let results = try decoder.decode(PhotoResponse.self, from: data)
                             
-                            print(results)
+                            
+                        
+                            return results.urls?.regular ?? "This didnt return well"
                             
                             
                         } else {
@@ -60,7 +62,7 @@ struct DataService {
             print("You have an invalid API KEY")
         }
         
-       
+       return ""
   
     } // end of function
   
